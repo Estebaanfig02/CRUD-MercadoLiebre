@@ -17,25 +17,25 @@
 		<div class="product-detail">
 			<div class="row">
 				<div class="col-12 col-lg-8">
-					<img src="/images/products/¿?" alt="product image" class="product-detail-img">
+					<img src="/images/products/<%= productDetail.image %>" alt="product image" class="product-detail-img">
 					<p class="product-detail-description">
-						PRODUCT DESCRIPTION
+						<%= productDetail.description %>
 					</p>
 				</div>
 				<div class="col-12 col-lg-4">
 					<article class="product-detail-info">
-						<h2 class="product-detail-title">PRODUCT NAME</h2>
+						<h2 class="product-detail-title"><%= productDetail.name %></h2>
 						
 							<p class="product-detail-price small">
-								<span>$PRICE</span>
+								<span>$<%= productDetail.price %></span>
 								/
-								<b>DISCOUNT% OFF</b>
+								<b><%= productDetail.discount %>% OFF</b>
 							</p>
 							<p class="product-detail-price">
-								$FINAL PRICE
+								$<%= productDetail.price * 50 / 100 %>
 							</p>
 							<p class="product-detail-price">
-								$PRICE
+							
 							</p>
 
 						<ul class="actions-list">
