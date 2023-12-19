@@ -4,6 +4,8 @@ const path = require('path');
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
+const { uuid } = require('uuidv4')
+
 const {loadProducts,storeProducts,loadUsers,storeUsers} = require('../data/moduleFs')
 
 const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -25,12 +27,27 @@ const productsControllers = {
 
 	// Create - Form to create
 	create: (req, res) => {
+		res.render('product-create-form')
 
 	},
 	
 	// Create -  Method to store
 	store: (req, res) => {
-		// Do the magic
+		const {name,price,discount,category,description,image} = req.body;
+		const products = loadProducts()
+		products.push(
+			{
+				id: uuid(),
+				name:name.trim(),
+				price:+price,
+				discount: discount,
+				category: category,
+				description:description.trim(),
+				image: 'default-image.png'
+			}
+		)
+		storeProducts(products)
+		res.redirect('/products')
 	},
 
 	// Update - Form to edit
@@ -64,13 +81,12 @@ const productsControllers = {
 	},
 
 	// Delete - Delete one product from DB
-	destroy : (req, res) => {
-		const id = +req.params.id;
-		const archivoJSON = loadProducts();
- 		const productosNoDestoy = archivoJSON.filter(product => product.id !== id)
-			res.send(productosNoDestoy)
-			storeProducts(productosNoDestoy);
-			returnres.redirect('./products')
+	destroy: (req, res) => {
+		const {id} = req.params;
+		const products = loadProducts();
+ 		const productosNoDestoy = products.filter(product => product.id !== id);
+		storeProducts(productosNoDestoy);
+		res.redirect('/products')
 	}
 };
 
